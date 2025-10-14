@@ -132,3 +132,55 @@
 .modal-search-button:hover {
   background-color: var(--primary-hover);
 } 
+
+/* --- Stats header --- */
+.modal-stats {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.stat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--input-border-color);
+  border-radius: 999px;
+  background: var(--input-bg-color);
+  color: var(--text-color);
+}
+
+.stat-chip .stat-label {
+  font-weight: 500;
+}
+
+.stat-chip .stat-value {
+  background: var(--primary-color);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* --- Day grouping --- */
+#fiches-day-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.day-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+.day-group .day-line {
+  flex: 1;
+  height: 1px;
+  background: var(--input-border-color);
+}

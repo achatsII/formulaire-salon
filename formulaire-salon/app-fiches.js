@@ -20,6 +20,9 @@ function renderFiches(leadsToDisplay = null, searchTerm = '') {
             emptyIncompleteFiches, confirmDeleteModal, selectedLeads,
             fichesModal, showToast } = window; // Destructure needed elements/functions
 
+    const mqlTodayCountEl = document.getElementById('mql-today-count');
+    const fichesDayGroupsEl = document.getElementById('fiches-day-groups');
+
     // Use provided list or default to global data
     const currentLeadData = leadsToDisplay || window.leadsData;
 
@@ -47,6 +50,35 @@ function renderFiches(leadsToDisplay = null, searchTerm = '') {
     // Sort by timestamp (newest first)
     filteredFiches.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
+    // --- Compute MQL today and group by day ---
+    const today = new Date();
+    const y = today.getFullYear(), m = today.getMonth(), d = today.getDate();
+    const isSameDay = (date) => date.getFullYear() === y && date.getMonth() === m && date.getDate() === d;
+
+    let mqlToday = 0;
+    const groups = new Map(); // key: yyyy-mm-dd => { label, count, mqlCount }
+    const toKey = (date) => {
+      const yyyy = date.getFullYear();
+      const mm = String(date.getMonth() + 1).padStart(2, '0');
+      const dd = String(date.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`;
+    };
+
+    filteredFiches.forEach(lead => {
+      const dt = new Date(lead.timestamp);
+      if (lead.leadType === 'MQL' && isSameDay(dt)) mqlToday++;
+      const key = toKey(dt);
+      const label = dt.toLocaleDateString();
+      const existing = groups.get(key) || { label, count: 0, mqlCount: 0 };
+      existing.count++;
+      if (lead.leadType === 'MQL') existing.mqlCount++;
+      groups.set(key, existing);
+    });
+
+    if (mqlTodayCountEl) {
+      mqlTodayCountEl.textContent = String(mqlToday);
+    }
+
     // Separate complete and incomplete fiches FROM THE FILTERED LIST
     const completeFiches = filteredFiches.filter(lead => lead.isComplete);
     const incompleteFiches = filteredFiches.filter(lead => !lead.isComplete);
@@ -60,6 +92,15 @@ function renderFiches(leadsToDisplay = null, searchTerm = '') {
       emptyFiches.classList.remove('hidden');
     } else {
       emptyFiches.classList.add('hidden');
+      // Render day group headers (newest first by key)
+      if (fichesDayGroupsEl) {
+        const sortedGroupEntries = Array.from(groups.entries()).sort((a, b) => (a[0] < b[0] ? 1 : -1));
+        let groupHtml = '';
+        sortedGroupEntries.forEach(([key, info]) => {
+          groupHtml += `<div class="day-group"><div class="day-label">${info.label}</div><div class="day-count">(${info.count} total, ${info.mqlCount} MQL)</div><div class="day-line"></div></div>`;
+        });
+        fichesDayGroupsEl.innerHTML = groupHtml;
+      }
       let html = '';
       filteredFiches.forEach(lead => {
         const name = `${lead.prenom || ''} ${lead.nom || ''}`.trim() || 'Sans nom';
