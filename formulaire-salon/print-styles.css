@@ -1,0 +1,18 @@
+@media print {
+  body {
+    background-color: white;
+    color: black;
+  }
+
+  header,
+  .form-sidebar,
+  .button-group {
+    display: none;
+  }
+
+  .container {
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+  }
+} 

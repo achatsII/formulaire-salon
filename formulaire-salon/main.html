@@ -1,0 +1,508 @@
+<main>
+  <div class="content-area">
+    <div class="container">
+      <form id="lead-form">
+        <input type="hidden" id="leadId" name="leadId">
+        <input type="hidden" id="vendeur" name="vendeur">
+
+        <div class="form-sidebar">
+          <div class="form-sidebar-item active" data-step="0">
+            <div class="form-sidebar-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <span>Vendeur</span>
+            <div class="form-sidebar-checkmark">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+          </div>
+          <div class="form-sidebar-item" data-step="1">
+            <div class="form-sidebar-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+            </div>
+            <span>Type de Lead</span>
+            <div class="form-sidebar-checkmark">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+          </div>
+          <div class="form-sidebar-item" data-step="2">
+            <div class="form-sidebar-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+            </div>
+            <span>Contact</span>
+            <div class="form-sidebar-checkmark">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+          </div>
+          <div class="form-sidebar-item" data-step="3">
+            <div class="form-sidebar-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="2" width="18" height="20" rx="2" ry="2"></rect>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="16" y1="10" x2="16" y2="14"></line>
+                <line x1="8" y1="10" x2="8" y2="14"></line>
+                <line x1="12" y1="10" x2="12" y2="14"></line>
+              </svg>
+            </div>
+            <span>Entreprise</span>
+            <div class="form-sidebar-checkmark">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+          </div>
+          <div class="form-sidebar-item" data-step="4">
+            <div class="form-sidebar-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+            </div>
+            <span>Qualification</span>
+            <div class="form-sidebar-checkmark">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+          </div>
+          <div class="form-sidebar-item" data-step="5">
+            <div class="form-sidebar-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+            </div>
+            <span>Notes</span>
+            <div class="form-sidebar-checkmark">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+          </div>
+
+          <div class="button-group" style="margin-top: 30px;">
+            <button type="button" id="cancel-form-button" class="secondary" style="width: 100%;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+              Annuler
+            </button>
+          </div>
+        </div>
+
+        <div class="form-content">
+          <div id="step-0" class="form-step">
+            <h2>Choix du Vendeur</h2>
+            <div class="form-field-group">
+              <label>Qui effectue la saisie ?</label>
+              <div class="vendeur-buttons">
+                <div class="vendeur-button" data-value="Hugues Gaudreau">
+                  <div class="vendeur-image">
+                    <img src="img/huges.webp" alt="Hugues Gaudreau">
+                  </div>
+                  <div class="vendeur-name">Hugues Gaudreau</div>
+                </div>
+                <div class="vendeur-button" data-value="Vincent Choucrallah">
+                   <div class="vendeur-image">
+                    <img src="img/vincent.webp" alt="Vincent Choucrallah">
+                  </div>
+                  <div class="vendeur-name">Vincent Choucrallah</div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+
+          <div id="step-1" class="form-step hidden">
+            <h2>Type de Lead</h2>
+            <div class="form-field-group">
+              <label>Sélectionnez le type de lead</label>
+              <div class="lead-type-buttons">
+                <div class="lead-type-button" data-value="MQL">
+                  <div class="lead-type-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <circle cx="12" cy="12" r="6"></circle>
+                      <circle cx="12" cy="12" r="2"></circle>
+                    </svg>
+                  </div>
+                  <div class="lead-type-title">MQL</div>
+                </div>
+                <div class="lead-type-button" data-value="Référenceur">
+                  <div class="lead-type-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="9" cy="7" r="4"></circle>
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                  </div>
+                  <div class="lead-type-title">Référenceur</div>
+                </div>
+                <div class="lead-type-button" data-value="OEM">
+                  <div class="lead-type-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"></path>
+                      <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
+                      <path d="M12 2v2"></path>
+                      <path d="M12 22v-2"></path>
+                      <path d="m17 20.66-1-1.73"></path>
+                      <path d="M11 10.27 7 3.34"></path>
+                      <path d="m20.66 17-1.73-1"></path>
+                      <path d="m3.34 7 1.73 1"></path>
+                      <path d="M14 12h8"></path>
+                      <path d="M2 12h2"></path>
+                      <path d="m20.66 7-1.73 1"></path>
+                      <path d="m3.34 17 1.73-1"></path>
+                      <path d="m17 3.34-1 1.73"></path>
+                      <path d="m11 13.73 4 6.93"></path>
+                    </svg>
+                  </div>
+                  <div class="lead-type-title">OEM</div>
+                </div>
+              </div>
+              <input type="hidden" id="leadType" name="leadType">
+            </div>
+          </div>
+
+          <div id="step-2" class="form-step hidden">
+            <h2>Contact Prioritaire</h2>
+            <div class="form-row">
+              <div class="form-col">
+                <div class="form-field-group input-with-icon">
+                  <label for="prenom">Prénom</label>
+                  <span class="field-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                  </span>
+                  <input type="text" id="prenom" name="prenom" placeholder="e.g., Jean">
+                  <button type="button" class="clear-input" data-for="prenom">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="15" y1="9" x2="9" y2="15"></line>
+                      <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="form-col">
+                <div class="form-field-group input-with-icon">
+                  <label for="nom">Nom</label>
+                  <span class="field-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                  </span>
+                  <input type="text" id="nom" name="nom" placeholder="e.g., Dupont">
+                  <button type="button" class="clear-input" data-for="nom">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="15" y1="9" x2="9" y2="15"></line>
+                      <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="form-field-group input-with-icon">
+              <label for="email" class="required">Courriel</label>
+              <span class="field-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </span>
+              <input type="email" id="email" name="email" required placeholder="e.g., jean.dupont@example.com">
+              <button type="button" class="clear-input" data-for="email">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="15" y1="9" x2="9" y2="15"></line>
+                  <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+              </button>
+            </div>
+            <div class="form-field-group input-with-icon">
+              <label for="telephone">Téléphone</label>
+              <span class="field-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                  </path>
+                </svg>
+              </span>
+              <input type="tel" id="telephone" name="telephone" placeholder="(123) 456-7890" maxlength="14">
+              <button type="button" class="clear-input" data-for="telephone">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="15" y1="9" x2="9" y2="15"></line>
+                  <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+              </button>
+            </div>
+            <div class="button-group end">
+              <button type="button" id="save-button-contact" class="btn success" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                Sauvegarder et nouveau
+              </button>
+              <button type="button" class="btn next-step-simple">Suivant</button>
+            </div>
+          </div>
+
+          <div id="step-3" class="form-step hidden">
+            <h2>Informations Entreprise</h2>
+            <div class="form-field-group">
+              <label for="entreprise">Nom de l'entreprise</label>
+              <input type="text" id="entreprise" name="entreprise">
+              <button type="button" class="clear-input" data-for="entreprise">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="15" y1="9" x2="9" y2="15"></line>
+                  <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+              </button>
+            </div>
+            <div class="form-field-group">
+              <label for="intitule">Fonction / Poste</label>
+              <input type="text" id="intitule" name="intitule">
+              <button type="button" class="clear-input" data-for="intitule">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="15" y1="9" x2="9" y2="15"></line>
+                  <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+              </button>
+            </div>
+            <div class="form-field-group">
+              <label for="secteur">Secteur d'activité</label>
+              <input type="text" id="secteur" name="secteur">
+              <button type="button" class="clear-input" data-for="secteur">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="15" y1="9" x2="9" y2="15"></line>
+                  <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+              </button>
+            </div>
+            <div class="button-group end">
+              <button type="button" id="save-button" class="success">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                  <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                  <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+                Sauvegarder et nouveau
+              </button>
+              <button type="button" class="next-step-simple">
+                Suivant
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div id="step-4" class="form-step hidden">
+            <h2>Qualification du Lead</h2>
+            <div class="form-field-group">
+              <label>Décideur ?</label>
+              <div class="decision-buttons">
+                <div class="decision-button" data-value="Oui">Oui</div>
+                <div class="decision-button" data-value="Non">Non</div>
+              </div>
+              <input type="hidden" id="decideur" name="decideur">
+            </div>
+            <div id="nomDecideurGroup" class="form-field-group hidden">
+              <label for="nomDecideur">Nom du Décideur</label>
+              <input type="text" id="nomDecideur" name="nomDecideur" placeholder="Prénom Nom du Décideur">
+              <button type="button" class="clear-input" data-for="nomDecideur">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="15" y1="9" x2="9" y2="15"></line>
+                  <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+              </button>
+            </div>
+
+            <div class="form-field-group">
+              <label>Intérêt client</label>
+              <div class="sentiment-buttons" data-group="interetClient">
+                <div class="sentiment-button" data-value="Froid">
+                  <span class="sentiment-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                      <polyline points="17 18 23 18 23 12"></polyline>
+                    </svg></span> Froid
+                </div>
+                <div class="sentiment-button" data-value="Tempéré">
+                  <span class="sentiment-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg></span> Tempéré
+                </div>
+                <div class="sentiment-button" data-value="Chaud">
+                  <span class="sentiment-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                      <polyline points="17 6 23 6 23 12"></polyline>
+                    </svg></span> Chaud
+                </div>
+              </div>
+              <input type="hidden" id="interetClient" name="interetClient">
+            </div>
+
+            <div class="form-field-group">
+              <label>Intérêt pour nous</label>
+              <div class="sentiment-buttons" data-group="interetII">
+                <div class="sentiment-button" data-value="Froid">
+                  <span class="sentiment-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                      <polyline points="17 18 23 18 23 12"></polyline>
+                    </svg></span> Froid
+                </div>
+                <div class="sentiment-button" data-value="Tempéré">
+                  <span class="sentiment-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg></span> Tempéré
+                </div>
+                <div class="sentiment-button" data-value="Chaud">
+                  <span class="sentiment-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                      <polyline points="17 6 23 6 23 12"></polyline>
+                    </svg></span> Chaud
+                </div>
+              </div>
+              <input type="hidden" id="interetII" name="interetII">
+            </div>
+            <div class="button-group end">
+              <button type="button" id="save-button-qualification" class="success">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                  <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                  <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+                Sauvegarder et nouveau
+              </button>
+              <button type="button" class="next-step-simple">
+                Suivant
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div id="step-5" class="form-step hidden">
+            <h2>Notes & Finalisation</h2>
+            <div class="form-field-group">
+              <label for="notes">Notes de Discussion</label>
+              <div class="textarea-with-controls">
+                <textarea id="notes" name="notes" rows="6" placeholder="Ajoutez des notes ici..."></textarea>
+                <button type="button" id="record-note-button" class="icon-button" title="Enregistrer une note vocale">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                    <line x1="12" y1="19" x2="12" y2="22"></line>
+                  </svg>
+                </button>
+                <button type="button" class="clear-input" data-for="notes">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                  </svg>
+                </button>
+              </div>
+              <details id="audio-players-details" class="hidden">
+                <summary>Enregistrements Audio</summary>
+                <div id="audio-player-container">
+                    <!-- Players will be inserted here by JS -->
+                </div>
+              </details>
+              <div id="recording-indicator" class="recording-indicator hidden">
+                <span class="recording-dot"></span> Enregistrement...
+              </div>
+            </div>
+            
+            <div class="button-group end">
+              <button type="button" id="save-button-notes" class="success">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                  <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                  <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+                Sauvegarder et nouveau
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>

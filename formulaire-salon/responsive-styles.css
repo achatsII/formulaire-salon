@@ -1,0 +1,17 @@
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+
+  .form-sidebar {
+    width: 200px;
+  }
+
+  .form-content {
+    padding: 0 15px;
+  }
+
+  .lead-type-buttons {
+    flex-direction: column;
+  }
+} 

@@ -1,0 +1,218 @@
+<!-- Fiches en mémoire modal -->
+<div id="fiches-modal" class="modal-backdrop hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">Fiches en mémoire</h3>
+      <button class="modal-close" id="close-fiches-modal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tabs">
+        <div class="modal-tab active" data-tab="all-fiches">Toutes les fiches</div>
+        <div class="modal-tab" data-tab="incomplete-fiches">Fiches incomplètes</div>
+      </div>
+
+      <div class="modal-search">
+        <input type="text" id="search-fiches" class="modal-search-input"
+          placeholder="Rechercher par nom, entreprise...">
+        <button type="button" class="modal-search-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div id="all-fiches" class="modal-tab-content active">
+        <div class="fiches-grid" id="fiches-grid-all">
+          <!-- Fiches will be generated here -->
+        </div>
+        <div id="empty-fiches" class="empty-state hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <h3>Aucune fiche disponible</h3>
+          <p>Commencez par créer une nouvelle fiche de contact.</p>
+        </div>
+      </div>
+
+      <div id="incomplete-fiches" class="modal-tab-content">
+        <div class="fiches-grid" id="fiches-grid-incomplete">
+          <!-- Incomplete fiches will be generated here -->
+        </div>
+        <div id="empty-incomplete-fiches" class="empty-state hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+          </svg>
+          <h3>Aucune fiche incomplète</h3>
+          <p>Les fiches partiellement remplies apparaîtront ici.</p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" id="export-selected-fiches-button" class="outline">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Exporter Sélection
+      </button>
+      <button type="button" id="export-all-fiches-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Exporter Tout
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Import/Export modal -->
+<div id="import-export-modal" class="modal-backdrop hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">Import / Export de Données</h3>
+      <button class="modal-close" id="close-import-export-modal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tabs">
+        <div class="modal-tab active" data-tab="export-tab">Exporter</div>
+        <!-- Removed Import Tab -->
+        <!-- <div class="modal-tab" data-tab="import-tab">Importer</div> -->
+      </div>
+
+      <div id="export-tab" class="modal-tab-content active">
+        <p>Exportez vos fiches de contact dans différents formats pour les utiliser dans d'autres applications.</p>
+
+        <div class="form-field-group">
+          <label>Format d'export</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="exportFormat" value="csv" checked>
+              <span>CSV (Excel, Google Sheets)</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="exportFormat" value="json">
+              <span>JSON (Développeurs)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="button" id="export-all-button" class="success">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Exporter Toutes les Fiches
+          </button>
+        </div>
+      </div>
+
+      <!-- Removed Import Tab Content -->
+      <!--
+      <div id="import-tab" class="modal-tab-content">
+        <p>Importez des fiches de contact depuis un fichier CSV ou JSON.</p>
+
+        <div class="form-field-group">
+          <label for="import-file">Sélectionnez un fichier</label>
+          <input type="file" id="import-file" accept=".csv,.json">
+          <p class="form-note">Formats supportés: CSV, JSON</p>
+        </div>
+
+        <div class="button-group">
+          <button type="button" id="import-button" class="success">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            Importer
+          </button>
+        </div>
+      </div>
+      -->
+    </div>
+  </div>
+</div>
+
+<!-- Confirmation modal -->
+<div id="confirm-delete-modal" class="modal-backdrop hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">Confirmer la suppression</h3>
+      <button class="modal-close" id="close-delete-modal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Êtes-vous sûr de vouloir supprimer cette fiche de contact ? Cette action est irréversible.</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" id="cancel-delete-button" class="secondary">Annuler</button>
+      <button type="button" id="confirm-delete-button" class="danger">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div id="settings-modal" class="modal-backdrop hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">Paramètres du Salon</h3>
+      <button class="modal-close" id="close-settings-modal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-field-group">
+        <label for="modal-salon-name-input">Nom du Salon</label>
+        <input type="text" id="modal-salon-name-input" placeholder="Entrez le nom du salon ici...">
+        <p class="form-note">Attention, le nom du salon est associé aux fiches de contact.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" id="cancel-settings-button" class="secondary">Annuler</button>
+      <button type="button" id="save-settings-button" class="success">Sauvegarder</button>
+    </div>
+  </div>
+</div>
+<!-- End Settings Modal -->
+
+<div id="toast-container"></div>
+</body>
+
+</html>

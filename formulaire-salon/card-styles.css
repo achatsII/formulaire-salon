@@ -1,0 +1,93 @@
+.fiches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.fiche-card {
+  background-color: var(--surface-color-alt);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  border: 1px solid var(--input-border-color);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.fiche-card:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.fiche-card.incomplete {
+  border-left: 4px solid var(--warning-color);
+}
+
+.fiche-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.fiche-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.fiche-type {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.fiche-info {
+  margin-bottom: 5px;
+  color: var(--text-light);
+}
+
+.fiche-info strong {
+  color: var(--text-color);
+}
+
+.fiche-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+  gap: 10px;
+}
+
+.fiche-action {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
+}
+
+.fiche-action:hover {
+  background-color: var(--input-bg-color);
+  color: var(--primary-color);
+}
+
+.fiche-action.delete:hover {
+  color: var(--error-color);
+}
+
+.fiche-checkbox {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary-color);
+  cursor: pointer;
+} 
