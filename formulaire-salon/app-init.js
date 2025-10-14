@@ -238,6 +238,7 @@ async function processPendingAudioOnly(leadId, isTargeted) {
 // ------------- Salon Name Management -------------
 const DEFAULT_SALON_NAME = "SIE-2025";
 const SALON_NAME_STORAGE_KEY = 'salonName';
+const PARTICIPANTS_STORAGE_KEY = 'salonParticipants';
 
 /**
  * Loads the salon name from localStorage or uses the default.
@@ -249,6 +250,42 @@ function loadSalonName() {
   const modalInputElement = document.getElementById('modal-salon-name-input');
   if (modalInputElement) {
     modalInputElement.value = window.salonName;
+  }
+}
+
+/**
+ * Loads participants from localStorage or returns defaults.
+ * @returns {string[]} Array of participant names
+ */
+function loadParticipants() {
+  try {
+    const raw = localStorage.getItem(PARTICIPANTS_STORAGE_KEY);
+    if (raw) {
+      const arr = JSON.parse(raw);
+      if (Array.isArray(arr)) return arr.filter(Boolean);
+    }
+  } catch (e) {
+    console.warn('Failed to load participants, using defaults.', e);
+  }
+  // Defaults (existing hard-coded names)
+  return [
+    'Hugues Gaudreau',
+    'Vincent Choucrallah'
+  ];
+}
+
+/**
+ * Saves participants to localStorage.
+ * @param {string[]} participants
+ */
+function saveParticipants(participants) {
+  try {
+    const sanitized = participants
+      .map(p => (typeof p === 'string' ? p.trim() : ''))
+      .filter(p => p);
+    localStorage.setItem(PARTICIPANTS_STORAGE_KEY, JSON.stringify(sanitized));
+  } catch (e) {
+    console.error('Failed to save participants', e);
   }
 }
 
@@ -280,6 +317,8 @@ function initSalonName() {
 window.updateOnlineStatus = updateOnlineStatus;
 window.initSalonName = initSalonName; // Expose initialization function
 window.initDB = initDB; // Assuming initDB was meant to be exposed
+window.loadParticipants = loadParticipants;
+window.saveParticipants = saveParticipants;
 // processPendingTranscriptions is already attached to window 
 // Expose the flag
 // window.isProcessingPending = false; // Added at the top

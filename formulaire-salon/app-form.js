@@ -6,7 +6,7 @@
 function initForm() {
     const { leadForm, nomDecideurGroup, leadTypeButtons, leadTypeInput,
             decisionButtons, decideurInput, sentimentButtons, interetClientInput,
-            interetIIInput, generateId, vendeurButtons, vendeurInput,
+            interetIIInput, generateId, vendeurInput,
             /* Add audio functions */ isAudioRecording, stopRecording, displayAudioPlayersList } = window;
 
     // Stop recording if it's active when resetting the form
@@ -29,7 +29,10 @@ function initForm() {
     interetIIInput.value = '';
 
     // Reset vendor selection
-    vendeurButtons.forEach(b => b.classList.remove('selected'));
+    const vendeurButtonsContainer = document.querySelector('.vendeur-buttons');
+    if (vendeurButtonsContainer) {
+        vendeurButtonsContainer.querySelectorAll('.vendeur-button').forEach(b => b.classList.remove('selected'));
+    }
     vendeurInput.value = '';
 
     window.currentStep = 0;
@@ -272,7 +275,7 @@ async function saveLead() {
 function editLead(leadId) {
     const { leadForm, leadsData, showToast, fichesModal, showStep,
             updateSidebarItems, nomDecideurGroup, leadTypeButtons,
-            decisionButtons, sentimentButtons, vendeurButtons, vendeurInput,
+            decisionButtons, sentimentButtons, vendeurInput,
             displayAudioPlayersList, formatPhoneNumber, updateContactSaveButtonState } = window;
 
     const lead = leadsData.find(l => l.leadId === leadId);
@@ -315,11 +318,16 @@ function editLead(leadId) {
 
     // --- Set button/radio states ---
     // Vendeur
-    vendeurButtons.forEach(btn => {
-        const isSelected = btn.querySelector('.vendeur-name').textContent.trim() === lead.vendeur;
-        btn.classList.toggle('selected', isSelected);
-        if (isSelected) vendeurInput.value = lead.vendeur;
-    });
+    const vendeurButtonsContainer = document.querySelector('.vendeur-buttons');
+    if (vendeurButtonsContainer) {
+        vendeurButtonsContainer.querySelectorAll('.vendeur-button').forEach(btn => {
+            const nameEl = btn.querySelector('.vendeur-name');
+            const btnName = nameEl ? nameEl.textContent.trim() : btn.dataset.value;
+            const isSelected = btnName === lead.vendeur;
+            btn.classList.toggle('selected', isSelected);
+            if (isSelected) vendeurInput.value = lead.vendeur;
+        });
+    }
 
     // Lead Type
     leadTypeButtons.forEach(btn => {

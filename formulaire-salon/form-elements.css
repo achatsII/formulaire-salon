@@ -231,6 +231,38 @@ textarea {
 }
 /* End Styles for Vendor Selection Buttons */
 
+/* Participants Manager */
+.participants-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.participant-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.participant-row input[type="text"] {
+  flex: 1;
+}
+
+.participant-row .remove-participant {
+  background: var(--danger-color, #b00020);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.participants-add-row {
+  display: flex;
+  gap: 10px;
+}
+
 /* Styles for Audio Player */
 .audio-player-container {
   margin-top: 15px;

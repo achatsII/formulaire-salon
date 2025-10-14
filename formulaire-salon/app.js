@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     importButton, importFileInput, offlineIndicator,
     prenomInput, nomInput, emailInput,
     settingsButton, settingsModal, modalSalonNameInput, closeSettingsModalButton, saveSettingsButton, cancelSettingsButton,
+    participantsList, newParticipantNameInput, addParticipantButton,
 
     // Utils (assuming these are attached to window by utils.js)
     generateId, formatDate, showToast,
@@ -87,6 +88,16 @@ document.addEventListener('DOMContentLoaded', () => {
         settingsButton.addEventListener('click', () => {
             // Ensure the input reflects the current global state when opening
             modalSalonNameInput.value = window.salonName || '';
+            // Render participants when opening
+            if (participantsList && window.loadParticipants) {
+                const participants = window.loadParticipants();
+                participantsList.innerHTML = participants.map((name, idx) => `
+                  <div class="participant-row" data-index="${idx}">
+                    <input type="text" class="participant-name-input" value="${name}">
+                    <button type="button" class="remove-participant">Supprimer</button>
+                  </div>
+                `).join('');
+            }
             settingsModal.classList.remove('hidden');
         });
 
@@ -110,12 +121,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("saveSalonName function not found.");
                 showToast('Erreur', 'Impossible de sauvegarder le nom du salon.', 'error');
             }
+
+            // Save participants
+            if (participantsList && window.saveParticipants) {
+                const inputs = participantsList.querySelectorAll('.participant-name-input');
+                const updated = Array.from(inputs).map(inp => inp.value.trim()).filter(Boolean);
+                window.saveParticipants(updated);
+                // Re-render vendor buttons after save
+                if (window.renderVendeurButtons) {
+                    window.renderVendeurButtons();
+                }
+            }
             settingsModal.classList.add('hidden');
         });
     } else {
         console.warn("One or more settings modal elements not found. Settings functionality disabled.");
     }
     // --- End Settings Modal Listeners ---
+
+    // --- Initial render of vendor buttons from participants ---
+    if (window.renderVendeurButtons) {
+        window.renderVendeurButtons();
+    }
 
     // Form Navigation Listeners
     nextButtons.forEach(btn => btn.addEventListener('click', () => {
@@ -147,23 +174,48 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Form Input Listeners
-    // --- Vendeur Selection Listeners ---
-    if (vendeurButtons && vendeurInput) {
-      vendeurButtons.forEach(btn => btn.addEventListener('click', () => {
-          const vendeurName = btn.querySelector('.vendeur-name').textContent.trim();
-          console.log('Vendeur selected:', vendeurName);
-          vendeurInput.value = vendeurName;
-
-          vendeurButtons.forEach(b => b.classList.remove('selected'));
-          btn.classList.add('selected');
-
-          // Wait a bit for visual feedback then go to next step
-          setTimeout(window.goToNextStep, 300); // Call function from window
-      }));
+    // --- Vendeur Selection with Event Delegation ---
+    const vendeurButtonsContainer = document.querySelector('.vendeur-buttons');
+    if (vendeurButtonsContainer && vendeurInput) {
+        vendeurButtonsContainer.addEventListener('click', (e) => {
+            const btn = e.target.closest('.vendeur-button');
+            if (!btn) return;
+            const nameEl = btn.querySelector('.vendeur-name');
+            const vendeurName = nameEl ? nameEl.textContent.trim() : btn.dataset.value;
+            if (!vendeurName) return;
+            vendeurInput.value = vendeurName;
+            vendeurButtonsContainer.querySelectorAll('.vendeur-button').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            setTimeout(window.goToNextStep, 300);
+        });
     } else {
-      console.warn("Vendor selection elements not found.");
+        console.warn('Vendor buttons container not found.');
     }
     // --- End Vendeur Selection ---
+
+    // Participants add/remove handlers
+    if (participantsList) {
+        participantsList.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-participant')) {
+                const row = e.target.closest('.participant-row');
+                if (!row) return;
+                row.remove();
+            }
+        });
+    }
+    if (addParticipantButton && newParticipantNameInput && participantsList) {
+        addParticipantButton.addEventListener('click', () => {
+            const name = newParticipantNameInput.value.trim();
+            if (!name) return;
+            const idx = participantsList.querySelectorAll('.participant-row').length;
+            const row = document.createElement('div');
+            row.className = 'participant-row';
+            row.dataset.index = String(idx);
+            row.innerHTML = `<input type="text" class="participant-name-input" value="${name}"><button type="button" class="remove-participant">Supprimer</button>`;
+            participantsList.appendChild(row);
+            newParticipantNameInput.value = '';
+        });
+    }
 
     leadTypeButtons.forEach(btn => btn.addEventListener('click', () => {
       leadTypeButtons.forEach(b => b.classList.remove('selected'));
@@ -476,3 +528,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* === Function Definitions Removed === */
 // All function definitions previously here have been moved to separate app-*.js files.
+
+// Render vendor buttons from participants list
+window.renderVendeurButtons = () => {
+  try {
+    const container = document.querySelector('.vendeur-buttons');
+    if (!container || !window.loadParticipants) return;
+    const participants = window.loadParticipants();
+    container.innerHTML = participants.map(name => `
+      <div class="vendeur-button" data-value="${name}">
+        <div class="vendeur-image">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        </div>
+        <div class="vendeur-name">${name}</div>
+      </div>
+    `).join('');
+  } catch (e) {
+    console.error('Failed to render vendor buttons', e);
+  }
+};

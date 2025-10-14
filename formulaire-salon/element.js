@@ -76,6 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
   window.modalSalonNameInput = document.getElementById('modal-salon-name-input'); // Input inside modal
   window.saveSettingsButton = document.getElementById('save-settings-button'); // Save button in modal footer
   window.cancelSettingsButton = document.getElementById('cancel-settings-button'); // Cancel button in modal footer
+  window.participantsList = document.getElementById('participants-list');
+  window.newParticipantNameInput = document.getElementById('new-participant-name');
+  window.addParticipantButton = document.getElementById('add-participant-button');
 
   // --- Vendor Selection Elements ---
   window.vendeurButtons = document.querySelectorAll('.vendeur-button');
