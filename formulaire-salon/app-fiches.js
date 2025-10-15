@@ -35,14 +35,24 @@ function renderFiches(leadsToDisplay = null, searchTerm = '') {
 
     // Filter fiches if search term provided
     let filteredFiches = currentLeadData; // Use currentLeadData instead of leadsData
-    if (searchTerm) {
-      const term = searchTerm.toLowerCase();
+    if (searchTerm && searchTerm.trim()) {
+      const term = searchTerm.toLowerCase().trim();
       filteredFiches = currentLeadData.filter(lead => { // Use currentLeadData
+        // Search in multiple fields with null safety
+        const prenom = (lead.prenom || '').toLowerCase();
+        const nom = (lead.nom || '').toLowerCase();
+        const email = (lead.email || '').toLowerCase();
+        const entreprise = (lead.entreprise || '').toLowerCase();
+        
+        // Also search in the combined full name
+        const fullName = `${prenom} ${nom}`.trim();
+        
         return (
-          (lead.prenom && lead.prenom.toLowerCase().includes(term)) ||
-          (lead.nom && lead.nom.toLowerCase().includes(term)) ||
-          (lead.email && lead.email.toLowerCase().includes(term)) ||
-          (lead.entreprise && lead.entreprise.toLowerCase().includes(term))
+          prenom.includes(term) ||
+          nom.includes(term) ||
+          email.includes(term) ||
+          entreprise.includes(term) ||
+          fullName.includes(term)
         );
       });
     }
@@ -88,49 +98,99 @@ function renderFiches(leadsToDisplay = null, searchTerm = '') {
     // --- Render All Fiches Tab ---
     if (filteredFiches.length === 0) {
       fichesGridAll.innerHTML = '';
+      if (searchTerm && searchTerm.trim()) {
+        // Show search-specific empty state
+        emptyFiches.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <h3>Aucun résultat trouvé</h3>
+          <p>Aucune fiche ne correspond à votre recherche "<strong>${searchTerm}</strong>"</p>
+        `;
+      } else {
+        // Show default empty state
+        emptyFiches.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="8.5" cy="7" r="4"></circle>
+            <line x1="20" y1="8" x2="20" y2="14"></line>
+            <line x1="23" y1="11" x2="17" y2="11"></line>
+          </svg>
+          <h3>Aucune fiche en mémoire</h3>
+          <p>Commencez par créer votre première fiche de contact</p>
+        `;
+      }
       emptyFiches.classList.remove('hidden');
     } else {
       emptyFiches.classList.add('hidden');
-      // Render day group headers (newest first by key)
-      if (fichesDayGroupsEl) {
-        const sortedGroupEntries = Array.from(groups.entries()).sort((a, b) => (a[0] < b[0] ? 1 : -1));
-        let groupHtml = '';
-        sortedGroupEntries.forEach(([key, info]) => {
-          groupHtml += `<div class="day-group"><div class="day-label">${info.label}</div><div class="day-count">(${info.count} total, ${info.mqlCount} MQL)</div><div class="day-line"></div></div>`;
-        });
-        fichesDayGroupsEl.innerHTML = groupHtml;
-      }
+      // Group fiches by day and render with visual separation
+      const sortedGroupEntries = Array.from(groups.entries()).sort((a, b) => (a[0] < b[0] ? 1 : -1));
       let html = '';
-      filteredFiches.forEach(lead => {
-        const name = `${lead.prenom || ''} ${lead.nom || ''}`.trim() || 'Sans nom';
-        const email = lead.email || 'Email non renseigné';
-        const type = lead.leadType || 'Type non spécifié';
-        const entreprise = lead.entreprise || 'Entreprise non spécifiée';
-        const date = new Date(lead.timestamp).toLocaleDateString();
-        const isIncomplete = !lead.isComplete;
-
-        const isSelected = selectedLeads.includes(lead.leadId);
+      
+      sortedGroupEntries.forEach(([dayKey, dayInfo], dayIndex) => {
+        // Get fiches for this specific day
+        const dayFiches = filteredFiches.filter(lead => {
+          const leadDate = new Date(lead.timestamp);
+          const leadDayKey = toKey(leadDate);
+          return leadDayKey === dayKey;
+        });
+        
+        if (dayFiches.length === 0) return;
+        
+        // Day header with improved styling
+        const dayColorClass = `day-color-${dayIndex % 4}`; // Cycle through 4 colors
+        const searchIndicator = searchTerm && searchTerm.trim() ? ' (recherche)' : '';
         html += `
-            <div class="fiche-card ${isIncomplete ? 'incomplete' : ''} ${isSelected ? 'selected' : ''}" data-lead-id="${lead.leadId}">
-                <input type="checkbox" class="fiche-checkbox" data-id="${lead.leadId}" ${isSelected ? 'checked' : ''}>
-                <div class="fiche-header">
-                    <div class="fiche-title">${name}</div>
-                    <div class="fiche-type">${type}</div>
-                </div>
-                <div class="fiche-info"><strong>Email:</strong> ${email}</div>
-                <div class="fiche-info"><strong>Entreprise:</strong> ${entreprise}</div>
-                <div class="fiche-info"><strong>Date:</strong> ${date}</div>
-                <div class="fiche-actions">
-                    <button type="button" class="fiche-action edit-fiche" data-id="${lead.leadId}" title="Modifier">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                    </button>
-                    <button type="button" class="fiche-action delete-fiche" data-id="${lead.leadId}" title="Supprimer">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                    </button>
-                </div>
+          <div class="day-section">
+            <div class="day-header ${dayColorClass}">
+              <div class="day-header-content">
+                <div class="day-label">${dayInfo.label}${searchIndicator}</div>
+                <div class="day-count">${dayInfo.count} fiche${dayInfo.count > 1 ? 's' : ''} • ${dayInfo.mqlCount} MQL</div>
+              </div>
+              <div class="day-separator"></div>
             </div>
-            `;
+            <div class="day-fiches-grid">
+        `;
+        
+        // Render fiches for this day
+        dayFiches.forEach(lead => {
+          const name = `${lead.prenom || ''} ${lead.nom || ''}`.trim() || 'Sans nom';
+          const email = lead.email || 'Email non renseigné';
+          const type = lead.leadType || 'Type non spécifié';
+          const entreprise = lead.entreprise || 'Entreprise non spécifiée';
+          const date = new Date(lead.timestamp).toLocaleDateString();
+          const isIncomplete = !lead.isComplete;
+
+          const isSelected = selectedLeads.includes(lead.leadId);
+          html += `
+              <div class="fiche-card ${isIncomplete ? 'incomplete' : ''} ${isSelected ? 'selected' : ''}" data-lead-id="${lead.leadId}">
+                  <input type="checkbox" class="fiche-checkbox" data-id="${lead.leadId}" ${isSelected ? 'checked' : ''}>
+                  <div class="fiche-header">
+                      <div class="fiche-title">${name}</div>
+                      <div class="fiche-type">${type}</div>
+                  </div>
+                  <div class="fiche-info"><strong>Email:</strong> ${email}</div>
+                  <div class="fiche-info"><strong>Entreprise:</strong> ${entreprise}</div>
+                  <div class="fiche-info"><strong>Date:</strong> ${date}</div>
+                  <div class="fiche-actions">
+                      <button type="button" class="fiche-action edit-fiche" data-id="${lead.leadId}" title="Modifier">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                      </button>
+                      <button type="button" class="fiche-action delete-fiche" data-id="${lead.leadId}" title="Supprimer">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                      </button>
+                  </div>
+              </div>
+              `;
+        });
+        
+        html += `
+            </div>
+          </div>
+        `;
       });
+      
       fichesGridAll.innerHTML = html;
     }
 
@@ -140,8 +200,37 @@ function renderFiches(leadsToDisplay = null, searchTerm = '') {
         emptyIncompleteFiches.classList.remove('hidden');
     } else {
         emptyIncompleteFiches.classList.add('hidden');
-        let html = '';
+        
+        // Group incomplete fiches by day
+        const incompleteGroups = new Map();
         incompleteFiches.forEach(lead => {
+          const dt = new Date(lead.timestamp);
+          const key = toKey(dt);
+          const label = dt.toLocaleDateString();
+          const existing = incompleteGroups.get(key) || { label, count: 0, leads: [] };
+          existing.count++;
+          existing.leads.push(lead);
+          incompleteGroups.set(key, existing);
+        });
+        
+        const sortedIncompleteEntries = Array.from(incompleteGroups.entries()).sort((a, b) => (a[0] < b[0] ? 1 : -1));
+        let html = '';
+        
+        sortedIncompleteEntries.forEach(([dayKey, dayInfo], dayIndex) => {
+          const dayColorClass = `day-color-${dayIndex % 4}`;
+          html += `
+            <div class="day-section">
+              <div class="day-header ${dayColorClass}">
+                <div class="day-header-content">
+                  <div class="day-label">${dayInfo.label}</div>
+                  <div class="day-count">${dayInfo.count} fiche${dayInfo.count > 1 ? 's' : ''} incomplète${dayInfo.count > 1 ? 's' : ''}</div>
+                </div>
+                <div class="day-separator"></div>
+              </div>
+              <div class="day-fiches-grid">
+          `;
+          
+          dayInfo.leads.forEach(lead => {
             const name = `${lead.prenom || ''} ${lead.nom || ''}`.trim() || 'Sans nom';
             const email = lead.email || 'Email non renseigné';
             const type = lead.leadType || 'Type non spécifié';
@@ -186,7 +275,14 @@ function renderFiches(leadsToDisplay = null, searchTerm = '') {
                     </div>
                 </div>
                 `;
+          });
+          
+          html += `
+              </div>
+            </div>
+          `;
         });
+        
         fichesGridIncomplete.innerHTML = html;
     }
 

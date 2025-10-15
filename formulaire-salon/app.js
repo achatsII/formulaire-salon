@@ -348,6 +348,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (targetContent) {
             targetContent.classList.add('active');
         }
+
+        // Re-render fiches with current search term when switching tabs in fiches modal
+        if (clickedModal.id === 'fiches-modal') {
+            const searchInput = document.getElementById('search-fiches');
+            const searchTerm = searchInput ? searchInput.value.trim() : '';
+            window.renderFiches(window.leadsData, searchTerm);
+        }
     }));
 
     viewFichesButton.addEventListener('click', () => {
@@ -371,12 +378,64 @@ document.addEventListener('DOMContentLoaded', () => {
       if (allFichesContentElement) allFichesContentElement.classList.add('active');
       else console.warn('Could not find the "All Fiches" content element.');
 
+      // Clear search field when opening modal
+      const searchInput = document.getElementById('search-fiches');
+      if (searchInput) {
+        searchInput.value = '';
+      }
+
       // Render ALL leads initially for the "All Fiches" tab
       window.renderFiches(window.leadsData); // Pass the full list, renderFiches handles internal display logic
       
       fichesModal.classList.remove('hidden'); // Show modal after setting tab and rendering
     });
     closeFichesModal.addEventListener('click', () => fichesModal.classList.add('hidden'));
+
+    // Search functionality for fiches
+    const searchFichesInput = document.getElementById('search-fiches');
+    const searchFichesButton = document.querySelector('.modal-search-button');
+    
+    if (searchFichesInput) {
+      // Search on input change (real-time search)
+      searchFichesInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.trim();
+        window.renderFiches(window.leadsData, searchTerm);
+        
+        // Show/hide clear button based on input content
+        const clearButton = document.querySelector('.search-clear-button');
+        if (clearButton) {
+          clearButton.style.display = searchTerm ? 'block' : 'none';
+        }
+      });
+      
+      // Search on Enter key
+      searchFichesInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          const searchTerm = e.target.value.trim();
+          window.renderFiches(window.leadsData, searchTerm);
+        }
+      });
+    }
+    
+    if (searchFichesButton) {
+      // Search on button click
+      searchFichesButton.addEventListener('click', () => {
+        const searchTerm = searchFichesInput ? searchFichesInput.value.trim() : '';
+        window.renderFiches(window.leadsData, searchTerm);
+      });
+    }
+    
+    // Clear search functionality
+    const clearSearchButton = document.querySelector('.search-clear-button');
+    if (clearSearchButton) {
+      clearSearchButton.addEventListener('click', () => {
+        if (searchFichesInput) {
+          searchFichesInput.value = '';
+          clearSearchButton.style.display = 'none';
+          window.renderFiches(window.leadsData, '');
+        }
+      });
+    }
 
     importExportButton.addEventListener('click', () => {
         // Ensure the 'Export' tab is active by default
