@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.exportAllFichesButton     = document.getElementById('export-all-fiches-button');
   window.exportSelectedFichesButton= document.getElementById('export-selected-fiches-button');
+  window.clearSelectionButton      = document.getElementById('clear-selection-button');
   window.exportAllButton           = document.getElementById('export-all-button');
   // window.importButton              = document.getElementById('import-button'); // Removed
   // window.importFileInput           = document.getElementById('import-file'); // Removed

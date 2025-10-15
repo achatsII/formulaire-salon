@@ -83,8 +83,7 @@ function renderFiches(leadsToDisplay = null, searchTerm = '') {
     const completeFiches = filteredFiches.filter(lead => lead.isComplete);
     const incompleteFiches = filteredFiches.filter(lead => !lead.isComplete);
 
-    // Clear previous selections when re-rendering
-    window.selectedLeads = []; // Reset global selection
+    // Don't clear selections when re-rendering - preserve user selections
 
     // --- Render All Fiches Tab ---
     if (filteredFiches.length === 0) {
@@ -110,9 +109,10 @@ function renderFiches(leadsToDisplay = null, searchTerm = '') {
         const date = new Date(lead.timestamp).toLocaleDateString();
         const isIncomplete = !lead.isComplete;
 
+        const isSelected = selectedLeads.includes(lead.leadId);
         html += `
-            <div class="fiche-card ${isIncomplete ? 'incomplete' : ''}" data-lead-id="${lead.leadId}">
-                <input type="checkbox" class="fiche-checkbox" data-id="${lead.leadId}">
+            <div class="fiche-card ${isIncomplete ? 'incomplete' : ''} ${isSelected ? 'selected' : ''}" data-lead-id="${lead.leadId}">
+                <input type="checkbox" class="fiche-checkbox" data-id="${lead.leadId}" ${isSelected ? 'checked' : ''}>
                 <div class="fiche-header">
                     <div class="fiche-title">${name}</div>
                     <div class="fiche-type">${type}</div>
@@ -160,9 +160,10 @@ function renderFiches(leadsToDisplay = null, searchTerm = '') {
             if (lead.interetII) filledFields++;
             const completionPercentage = Math.round((filledFields / totalFields) * 100);
 
+            const isSelected = selectedLeads.includes(lead.leadId);
             html += `
-                <div class="fiche-card incomplete" data-lead-id="${lead.leadId}">
-                    <input type="checkbox" class="fiche-checkbox" data-id="${lead.leadId}">
+                <div class="fiche-card incomplete ${isSelected ? 'selected' : ''}" data-lead-id="${lead.leadId}">
+                    <input type="checkbox" class="fiche-checkbox" data-id="${lead.leadId}" ${isSelected ? 'checked' : ''}>
                     <div class="fiche-header">
                         <div class="fiche-title">${name}</div>
                         <div class="fiche-type">${type}</div>
@@ -349,6 +350,16 @@ function exportToJSON(data) {
 }
 
 
+/**
+ * Clears all selected fiches and updates the UI.
+ */
+function clearAllSelections() {
+    window.selectedLeads = [];
+    updateExportSelectedButton();
+    // Re-render to update checkbox states
+    renderFiches();
+}
+
 // Expose functions globally
 window.renderFiches = renderFiches;
 // window.editLead = editLead; // Now exposed from app-form.js
@@ -356,4 +367,5 @@ window.closeDeleteModal = closeDeleteModal;
 window.exportAllLeads = exportAllLeads;
 window.exportToCSV = exportToCSV;
 window.exportToJSON = exportToJSON;
-window.updateExportSelectedButton = updateExportSelectedButton; 
+window.updateExportSelectedButton = updateExportSelectedButton;
+window.clearAllSelections = clearAllSelections; 

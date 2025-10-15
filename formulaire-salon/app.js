@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     confirmDeleteModal, closeDeleteModalButton, cancelDeleteButton,
     confirmDeleteButton,
     fichesGridAll, fichesGridIncomplete, emptyFiches, emptyIncompleteFiches,
-    exportAllFichesButton, exportSelectedFichesButton, exportAllButton,
+    exportAllFichesButton, exportSelectedFichesButton, clearSelectionButton, exportAllButton,
     importButton, importFileInput, offlineIndicator,
     prenomInput, nomInput, emailInput,
     settingsButton, settingsModal, modalSalonNameInput, closeSettingsModalButton, saveSettingsButton, cancelSettingsButton,
@@ -425,8 +425,15 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
         const selectedLeadsData = window.leadsData.filter(lead => window.selectedLeads.includes(lead.leadId));
-        window.exportToCSV(selectedLeadsData); // Call function from window
+        const format = document.querySelector('input[name="exportFormat"]:checked')?.value || 'csv';
+        if (format === 'csv') {
+          window.exportToCSV(selectedLeadsData);
+        } else if (format === 'json') {
+          window.exportToJSON(selectedLeadsData);
+        }
       });
+
+    clearSelectionButton.addEventListener('click', window.clearAllSelections);
 
     // Audio Recording Listener
     recordNoteButton.addEventListener('click', window.toggleRecording); // Call function from window
