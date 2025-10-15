@@ -93,16 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const participants = window.loadParticipants();
                 participantsList.innerHTML = participants.map((participant, idx) => {
                   const name = typeof participant === 'string' ? participant : participant.name;
-                  const image = typeof participant === 'object' ? participant.image : null;
                   return `
                     <div class="participant-row" data-index="${idx}">
-                      <div class="participant-image-preview">
-                        ${image ? `<img src="${image}" alt="${name}" class="participant-thumbnail">` : `
-                          <div class="participant-placeholder">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                          </div>
-                        `}
-                      </div>
                       <input type="text" class="participant-name-input" value="${name}">
                       <button type="button" class="remove-participant">Supprimer</button>
                     </div>
@@ -229,11 +221,6 @@ document.addEventListener('DOMContentLoaded', () => {
             row.className = 'participant-row';
             row.dataset.index = String(idx);
             row.innerHTML = `
-              <div class="participant-image-preview">
-                <div class="participant-placeholder">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                </div>
-              </div>
               <input type="text" class="participant-name-input" value="${name}">
               <button type="button" class="remove-participant">Supprimer</button>
             `;
