@@ -255,34 +255,69 @@ function loadSalonName() {
 
 /**
  * Loads participants from localStorage or returns defaults.
- * @returns {string[]} Array of participant names
+ * @returns {Array<{name: string, image?: string}>} Array of participant objects
  */
 function loadParticipants() {
   try {
     const raw = localStorage.getItem(PARTICIPANTS_STORAGE_KEY);
     if (raw) {
       const arr = JSON.parse(raw);
-      if (Array.isArray(arr)) return arr.filter(Boolean);
+      if (Array.isArray(arr)) {
+        // Handle both old format (strings) and new format (objects)
+        return arr.filter(Boolean).map(item => {
+          if (typeof item === 'string') {
+            return { name: item, image: getDefaultImageForParticipant(item) };
+          }
+          return item;
+        });
+      }
     }
   } catch (e) {
     console.warn('Failed to load participants, using defaults.', e);
   }
   // Defaults (existing hard-coded names)
   return [
-    'Hugues Gaudreau',
-    'Vincent Choucrallah'
+    { name: 'Hugues Gaudreau', image: 'img/huges.webp' },
+    { name: 'Vincent Choucrallah', image: 'img/vincent.webp' }
   ];
 }
 
 /**
+ * Gets the default image path for a participant name (using first name only)
+ * @param {string} name - The participant name
+ * @returns {string} The default image path
+ */
+function getDefaultImageForParticipant(name) {
+  if (!name) return null;
+  
+  // Extract first name only: "Prénom Nom" -> "prenom"
+  const firstName = name
+    .split(' ')[0] // Take only the first word
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '') // Remove special characters
+    .trim();
+  
+  // Return the filename based on first name
+  return `img/${firstName}.webp`;
+}
+
+/**
  * Saves participants to localStorage.
- * @param {string[]} participants
+ * @param {Array<{name: string, image?: string}>} participants
  */
 function saveParticipants(participants) {
   try {
     const sanitized = participants
-      .map(p => (typeof p === 'string' ? p.trim() : ''))
-      .filter(p => p);
+      .map(participant => {
+        if (typeof participant === 'string') {
+          return { name: participant.trim(), image: getDefaultImageForParticipant(participant.trim()) };
+        }
+        return {
+          name: (participant.name || '').trim(),
+          image: participant.image || getDefaultImageForParticipant(participant.name || '')
+        };
+      })
+      .filter(p => p.name);
     localStorage.setItem(PARTICIPANTS_STORAGE_KEY, JSON.stringify(sanitized));
   } catch (e) {
     console.error('Failed to save participants', e);
@@ -313,12 +348,74 @@ function initSalonName() {
 
 // ------------- End Salon Name Management -------------
 
+/**
+ * Converts a file to base64 data URL
+ * @param {File} file - The file to convert
+ * @returns {Promise<string>} Base64 data URL
+ */
+function fileToDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+/**
+ * Validates if a file is a valid image
+ * @param {File} file - The file to validate
+ * @returns {boolean} True if valid image
+ */
+function isValidImageFile(file) {
+  const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+  const maxSize = 20 * 1024 * 1024; // 20MB - more reasonable for profile pictures
+  return validTypes.includes(file.type) && file.size <= maxSize;
+}
+
+/**
+ * Generates a unique filename for a participant image
+ * @param {string} participantName - The participant's name
+ * @param {string} fileExtension - The file extension (e.g., 'jpg', 'png')
+ * @returns {string} Unique filename
+ */
+function generateParticipantImageFilename(participantName, fileExtension) {
+  const sanitizedName = participantName
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, '') // Remove special characters
+    .replace(/\s+/g, '_') // Replace spaces with underscores
+    .substring(0, 20); // Limit length
+  
+  const timestamp = Date.now();
+  return `${sanitizedName}_${timestamp}.${fileExtension}`;
+}
+
+/**
+ * Gets the file extension from a file type
+ * @param {string} mimeType - The MIME type of the file
+ * @returns {string} File extension
+ */
+function getFileExtensionFromMimeType(mimeType) {
+  const extensions = {
+    'image/jpeg': 'jpg',
+    'image/jpg': 'jpg',
+    'image/png': 'png',
+    'image/webp': 'webp',
+    'image/gif': 'gif'
+  };
+  return extensions[mimeType] || 'jpg';
+}
+
 // Expose functions globally
 window.updateOnlineStatus = updateOnlineStatus;
 window.initSalonName = initSalonName; // Expose initialization function
 window.initDB = initDB; // Assuming initDB was meant to be exposed
 window.loadParticipants = loadParticipants;
 window.saveParticipants = saveParticipants;
+window.fileToDataURL = fileToDataURL;
+window.isValidImageFile = isValidImageFile;
+window.generateParticipantImageFilename = generateParticipantImageFilename;
+window.getFileExtensionFromMimeType = getFileExtensionFromMimeType;
 // processPendingTranscriptions is already attached to window 
 // Expose the flag
 // window.isProcessingPending = false; // Added at the top

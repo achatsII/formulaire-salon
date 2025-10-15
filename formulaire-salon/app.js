@@ -91,12 +91,23 @@ document.addEventListener('DOMContentLoaded', () => {
             // Render participants when opening
             if (participantsList && window.loadParticipants) {
                 const participants = window.loadParticipants();
-                participantsList.innerHTML = participants.map((name, idx) => `
-                  <div class="participant-row" data-index="${idx}">
-                    <input type="text" class="participant-name-input" value="${name}">
-                    <button type="button" class="remove-participant">Supprimer</button>
-                  </div>
-                `).join('');
+                participantsList.innerHTML = participants.map((participant, idx) => {
+                  const name = typeof participant === 'string' ? participant : participant.name;
+                  const image = typeof participant === 'object' ? participant.image : null;
+                  return `
+                    <div class="participant-row" data-index="${idx}">
+                      <div class="participant-image-preview">
+                        ${image ? `<img src="${image}" alt="${name}" class="participant-thumbnail">` : `
+                          <div class="participant-placeholder">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                          </div>
+                        `}
+                      </div>
+                      <input type="text" class="participant-name-input" value="${name}">
+                      <button type="button" class="remove-participant">Supprimer</button>
+                    </div>
+                  `;
+                }).join('');
             }
             settingsModal.classList.remove('hidden');
         });
@@ -124,8 +135,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Save participants
             if (participantsList && window.saveParticipants) {
-                const inputs = participantsList.querySelectorAll('.participant-name-input');
-                const updated = Array.from(inputs).map(inp => inp.value.trim()).filter(Boolean);
+                const rows = participantsList.querySelectorAll('.participant-row');
+                const updated = Array.from(rows).map(row => {
+                  const nameInput = row.querySelector('.participant-name-input');
+                  const name = nameInput ? nameInput.value.trim() : '';
+                  // Image will be automatically generated based on first name
+                  const image = name ? window.getDefaultImageForParticipant(name) : null;
+                  return { name, image };
+                }).filter(p => p.name);
                 window.saveParticipants(updated);
                 // Re-render vendor buttons after save
                 if (window.renderVendeurButtons) {
@@ -211,7 +228,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const row = document.createElement('div');
             row.className = 'participant-row';
             row.dataset.index = String(idx);
-            row.innerHTML = `<input type="text" class="participant-name-input" value="${name}"><button type="button" class="remove-participant">Supprimer</button>`;
+            row.innerHTML = `
+              <div class="participant-image-preview">
+                <div class="participant-placeholder">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                </div>
+              </div>
+              <input type="text" class="participant-name-input" value="${name}">
+              <button type="button" class="remove-participant">Supprimer</button>
+            `;
             participantsList.appendChild(row);
             newParticipantNameInput.value = '';
         });
@@ -542,14 +567,21 @@ window.renderVendeurButtons = () => {
     const container = document.querySelector('.vendeur-buttons');
     if (!container || !window.loadParticipants) return;
     const participants = window.loadParticipants();
-    container.innerHTML = participants.map(name => `
-      <div class="vendeur-button" data-value="${name}">
-        <div class="vendeur-image">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+    container.innerHTML = participants.map(participant => {
+      const name = typeof participant === 'string' ? participant : participant.name;
+      const image = typeof participant === 'object' ? participant.image : null;
+      
+      return `
+        <div class="vendeur-button" data-value="${name}">
+          <div class="vendeur-image">
+            ${image ? `<img src="${image}" alt="${name}">` : `
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            `}
+          </div>
+          <div class="vendeur-name">${name}</div>
         </div>
-        <div class="vendeur-name">${name}</div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   } catch (e) {
     console.error('Failed to render vendor buttons', e);
   }
